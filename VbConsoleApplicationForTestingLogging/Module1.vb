@@ -12,22 +12,19 @@
         MessageTransfer
         MessageVerbose
         MessageWarning
+        ''' <summary>
+        ''' Bla bla, user has signed in using the forms.aspx web interface
+        ''' </summary>
+        ''' <remarks>
+        ''' To find the matching logout, <see cref="BarEventIds.UserHasSignedOut"/>
+        ''' </remarks>
+        UserHasSignedIn
+        UserHasSignedOut
     End Enum
 
     Sub Main()
 
-        'This needs to be executed as an Admin
-        If Not System.Diagnostics.EventLog.SourceExists("VbConsoleApplicationForTestingLogging") Then
-            System.Diagnostics.EventLog.CreateEventSource(source:="VbConsoleApplicationForTestingLogging", logName:="MyOwnGroup")
-        End If
-
-        'System.Diagnostics.ConsoleTraceListener
-        'System.Diagnostics.DefaultTraceListener
-        'System.Diagnostics.DelimitedListTraceListener
-        'System.Diagnostics.EventLogTraceListener
-        'System.Diagnostics.EventSchemaTraceListener
-        'System.Diagnostics.TextWriterTraceListener
-        'System.Diagnostics.XmlWriterTraceListener
+        createTraceSource()
 
         System.Diagnostics.Trace.TraceError("TraceError message")
         System.Diagnostics.Trace.TraceError("TraceError format {0},{1},{2}", 1, 2, 3)
@@ -54,11 +51,31 @@
         barTs.TraceEvent(TraceEventType.Transfer, BarEventIds.MessageTransfer, "Transfer {0}ms", DateTime.Now.Millisecond)
         barTs.TraceEvent(TraceEventType.Verbose, BarEventIds.MessageVerbose, "Verbose {0}ms", DateTime.Now.Millisecond)
         barTs.TraceEvent(TraceEventType.Warning, BarEventIds.MessageWarning, "Warning {0}ms", DateTime.Now.Millisecond)
+        barTs.TraceEvent(TraceEventType.Information, BarEventIds.UserHasSignedIn, "Username: {0}", "Gates")
+
 
         '"Default" Trace Source doesn't exist, only "Default" Trace Listener
         Dim defaultTs As New System.Diagnostics.TraceSource("Default")
         defaultTs.TraceEvent(TraceEventType.Information, 1234, "It's not there...")
 
+        Dim el As New System.Diagnostics.EventLog("Application")
+        Dim foo As System.Diagnostics.EventLogEntry
+
+
+
+        foo.
+
     End Sub
 
+    Private Sub createTraceSource()
+
+        'If System.Diagnostics.EventLog.SourceExists("VbConsoleApplicationForTestingLogging") Then
+        '    System.Diagnostics.EventLog.DeleteEventSource("VbConsoleApplicationForTestingLogging")
+        'End If
+
+        ''This needs to be executed as an Admin
+        'If Not System.Diagnostics.EventLog.SourceExists("VbConsoleApplicationForTestingLogging") Then
+        '    System.Diagnostics.EventLog.CreateEventSource(source:="VbConsoleApplicationForTestingLogging", logName:="MyOwnGroup")
+        'End If
+    End Sub
 End Module
